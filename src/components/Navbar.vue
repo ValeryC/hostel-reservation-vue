@@ -2,7 +2,9 @@
   <div>
     <b-navbar fixed="top" toggleable="lg" type="dark" variant="dark">
       <b-navbar-brand href="#">
-        <i class="fas fa-hotel"></i> Nestor reservation App
+        <!-- <i class="fas fa-hotel"></i>  -->
+        <img :src="require('../assets/nestor.jpg')" height="20px" width="20px">
+        Nestor reservation App
       </b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
@@ -11,7 +13,7 @@
         <b-navbar-nav class="ml-auto">
           <b-nav-form>
             <b-button
-              @click="modaldata2('Check Reservation', 'sucess')"
+              @click="modaldata2('Check Reservation', 'success')"
               size="sm"
               class="my-2 mr-2 my-sm-0"
             >
@@ -105,7 +107,32 @@
             placeholder="Enter User"
           ></b-form-input>
         </b-form-group>
+        <b-form-group
+          v-if="color == 'dark'"
+          id="input-group-1"
+          label="Password:"
+          label-for="input-1"
+        >
+          <b-form-input
+            id="input-1"
+            v-model="admininput.pass"
+            type="password"
+            required
+            placeholder="Enter Password"
+          ></b-form-input>
+        </b-form-group>
+
+        <b-button class="text-white" block type="submit" :variant="color">{{title}}</b-button>
       </b-form>
+      <b-card v-if="show && color=='success'" title="Reservation" class="mb-2 mt-4">
+        <b-card-text>
+          <h6>Reservation id: {{reservation.id}}</h6>
+          <h6>Name: {{reservation.name}}</h6>
+          <h6>Email: {{reservation.email}}</h6>
+          <h6>Day: {{reservation.day}}</h6>
+          <h6>Price: {{reservation.price}}</h6>
+        </b-card-text>
+      </b-card>
     </b-modal>
   </div>
 </template>
@@ -162,7 +189,7 @@ export default {
             .then(() => {
               this.$bvModal.hide("my-modal2");
               Swal.fire({
-                icon: "sucess",
+                icon: "success",
                 title: "Reservation Canceled"
               });
             })
@@ -176,7 +203,7 @@ export default {
             .them(() => {
               this.$bvModal.hide("my-modal2");
               Swal.fire({
-                icon: "sucess",
+                icon: "success",
                 title: "Message Sent"
               });
             })

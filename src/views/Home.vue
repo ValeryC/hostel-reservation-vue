@@ -2,6 +2,7 @@
   <div class="home">
     <Navbar/>
     <Carousel/>
+    <Room/>
   </div>
 </template>
 
@@ -9,12 +10,14 @@
 // @ is an alias to /src
 import Navbar from "@/components/Navbar.vue";
 import Carousel from "@/components/Carousel.vue";
+import Room from "@/components/Room.vue";
 
 export default {
   name: "home",
   components: {
     Navbar,
-    Carousel
+    Carousel,
+    Room
   }
 };
 </script>
