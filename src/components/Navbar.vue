@@ -124,12 +124,18 @@
 
         <b-button class="text-white" block type="submit" :variant="color">{{title}}</b-button>
       </b-form>
+
+      <!-- Show reservation of client -->
+
       <b-card v-if="show && color=='success'" title="Reservation" class="mb-2 mt-4">
         <b-card-text>
           <h6>Reservation id: {{reservation.id}}</h6>
-          <h6>Name: {{reservation.name}}</h6>
+          <h6>Name: {{reservation.firstname}}</h6>
+          <h6>lastname: {{reservation.lastname}}</h6>
           <h6>Nationality: {{reservation.nationality}}</h6>
+          <h6>DoB: {{reservation.birth}}</h6>
           <h6>Email: {{reservation.email}}</h6>
+          <h6>Phone: {{reservation.phone}}</h6>
           <h6>Day: {{reservation.day}}</h6>
           <h6>Price: {{reservation.price}}</h6>
         </b-card-text>
@@ -164,8 +170,11 @@ export default {
       reservation: {
         id: "",
         name: "",
+        lastname: "",
+        birth: "",
         nationality: "",
         email: "",
+        phone: "",
         day: "",
         price: ""
       },
@@ -257,11 +266,19 @@ export default {
       this.form.room = null;
       this.form.message = "";
       this.form.email = "";
-      (this.form.nationality = ""), (this.form.day = "");
+      this.form.nationality = "";
+      this.form.birth = "";
+      this.form.phone = "";
+      this.form.day = "";
 
       this.reservation.id = "";
-      this.reservation.name = "";
+      this.reservation.lastname = "";
+      this.reservation.firstname = "";
       this.reservation.email = "";
+      this.reservation.nationality = "";
+      this.reservation.birth = "";
+      this.reservation.phone = "";
+      this.reservation.message = "";
       this.reservation.day = "";
       this.reservation.price = "";
 
@@ -274,9 +291,12 @@ export default {
       this.show = true;
 
       this.reservation.id = doc.id;
-      this.reservation.name = doc2.data().name;
+      this.reservation.firstname = doc2.data().firstname;
+      this.reservation.lastname = doc2.data().lastname;
       this.reservation.nationality = doc2.data().nationality;
+      this.reservation.birth = doc.data().birth;
       this.reservation.email = doc2.data().email;
+      this.reservation.phone = doc2.data().phone;
       this.reservation.day = doc.data().day;
       this.reservation.price = doc.data().price;
     }

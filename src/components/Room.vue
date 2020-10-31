@@ -112,13 +112,23 @@
 
     <b-modal hide-footer id="my-modal" :title="form.room">
       <b-form @submit="onSubmit">
-        <b-form-group id="input-group-1" label="Name:" label-for="input-1">
+        <b-form-group id="input-group-1" label="Firstname:" label-for="input-1">
           <b-form-input
             id="input-1"
-            v-model="form.name"
+            v-model="form.firstname"
             type="text"
             required
-            placeholder="Enter Name"
+            placeholder="Enter firstname"
+          ></b-form-input>
+        </b-form-group>
+
+        <b-form-group id="input-group-1" label="Lastname:" label-for="input-1">
+          <b-form-input
+            id="input-1"
+            v-model="form.lastname"
+            type="text"
+            required
+            placeholder="Enter Lastname"
           ></b-form-input>
         </b-form-group>
 
@@ -129,6 +139,26 @@
             type="text"
             required
             placeholder="Enter Nationality"
+          ></b-form-input>
+        </b-form-group>
+
+        <b-form-group id="input-group-2" label="Birth:" label-for="input2">
+          <b-form-input
+            id="input-2"
+            v-model="form.birth"
+            type="date"
+            required
+            placeholder="Select Day"
+          ></b-form-input>
+        </b-form-group>
+
+        <b-form-group id="input-group-1" label="Phone:" label-for="input-1">
+          <b-form-input
+            id="input-1"
+            v-model="form.phone"
+            type="number"
+            required
+            placeholder="Enter a Phone number"
           ></b-form-input>
         </b-form-group>
 
@@ -163,7 +193,11 @@ export default {
     return {
       form: {
         email: "",
-        name: "",
+        firstname: "",
+        lastname: "",
+        nationality: "",
+        birth: "",
+        phone: "",
         room: "",
         price: "",
         date: ""
@@ -177,17 +211,25 @@ export default {
 
       db.collection("clients")
         .add({
-          name: this.form.name,
+          firstname: this.form.firstname,
+          lastname: this.form.lastname,
           nationality: this.form.nationality,
+          phone: this.form.phone,
           email: this.form.email
         })
         .then(docRef => {
           db.collection(this.form.room)
             .add({
               clientID: docRef.id,
+              firstname: this.form.firstname,
+              lastname: this.form.lastname,
+              nationality: this.form.nationality,
               room: this.form.room,
               price: this.form.price,
-              day: this.form.date
+              day: this.form.date,
+              birth: this.form.birth,
+              phone: this.form.phone,
+              email: this.form.email
             })
             .then(d => {
               Swal.fire(
@@ -197,7 +239,11 @@ export default {
               );
               this.$bvModal.hide("my-modal");
               this.form.email = "";
-              (this.form.nationality = ""), (this.form.name = "");
+              this.form.nationality = "";
+              this.form.firstname = "";
+              this.form.lastname = "";
+              this.form.birth = "";
+              this.form.phone = "";
             });
         });
     },

@@ -17,6 +17,19 @@
                 <i class="fas fa-door-open"></i> Exit
               </b-button>
             </router-link>
+
+            <!-- Right aligned nav items -->
+            <router-link to="/admin">
+              <b-button size="sm" class="my-2 mr-2 my-sm-0">
+                <i class="fas fa-user"></i> Admin
+              </b-button>
+            </router-link>
+
+            <router-link to="/message">
+              <b-button size="sm" class="my-2 mr-2 my-sm-0">
+                <i class="fas fa-envelope"></i> Message
+              </b-button>
+            </router-link>
           </b-nav-form>
         </b-navbar-nav>
       </b-collapse>
@@ -99,8 +112,12 @@ export default {
       messages: [],
       fields: [
         { key: "id", label: "Id", sortable: true },
-        { key: "clientID", label: "ClientID", sortable: true },
-        { key: "name", label: "Name", sortable: true },
+        // { key: "clientID", label: "ClientID", sortable: true },
+        { key: "firstname", label: "Firstname", sortable: true },
+        { key: "lastname", label: "Lastname", sortable: true },
+        { key: "nationality", label: "Nationality", sortable: true },
+
+        { key: "phone", label: "Phone", sortable: true },
         { key: "email", label: "E-mail", sortable: true },
         { key: "room", label: "Room", sortable: true },
         { key: "price", label: "Price", sortable: true },
@@ -109,14 +126,14 @@ export default {
       ],
       fieldsClient: [
         { key: "id", label: "Id", sortable: true },
-        { key: "name", label: "Name", sortable: true },
+        { key: "lastname", label: "lastname", sortable: true },
         { key: "email", label: "E-mail", sortable: true },
         { key: "delete", label: "Delete Client", sortable: true }
       ],
       fieldsMessage: [
         { key: "id", label: "Id", sortable: true },
         { key: "message", label: "Message", sortable: true },
-        { key: "name", label: "Name", sortable: true },
+        { key: "lastname", label: "lastname", sortable: true },
 
         { key: "email", label: "E-mail", sortable: true },
         { key: "delete", label: "Delete Message", sortable: true }
