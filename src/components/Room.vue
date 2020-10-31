@@ -112,7 +112,7 @@
 
     <b-modal hide-footer id="my-modal" :title="form.room">
       <b-form @submit="onSubmit">
-        <b-form-group id="input-groupe-1" label="Name:" label-for="input-1">
+        <b-form-group id="input-group-1" label="Name:" label-for="input-1">
           <b-form-input
             id="input-1"
             v-model="form.name"
@@ -122,7 +122,21 @@
           ></b-form-input>
         </b-form-group>
 
-        <b-form-group id="input-groupe-2" label="Day to Book:" label-for="input2">
+        <b-form-group id="input-group-1" label="Nationality:" label-for="input-1">
+          <b-form-input
+            id="input-1"
+            v-model="form.nationality"
+            type="text"
+            required
+            placeholder="Enter Nationality"
+          ></b-form-input>
+        </b-form-group>
+
+        <b-form-group id="input-group-2" label="E-mail" label-for="input-2">
+          <b-form-input id="input-2" v-model="form.email" required placeholder="Enter Email"></b-form-input>
+        </b-form-group>
+
+        <b-form-group id="input-group-2" label="Day to Book:" label-for="input2">
           <b-form-input
             id="input-2"
             v-model="form.date"
@@ -132,7 +146,7 @@
           ></b-form-input>
         </b-form-group>
 
-        <b-form-group id="input-groupe-2" label="Price per Night:" label-for="input-2">
+        <b-form-group id="input-group-2" label="Price per Night:" label-for="input-2">
           <b-form-input id="input-2qa" v-model="form.price" required disabled></b-form-input>
         </b-form-group>
         <b-button class="text-white" block type="submit" :variant="color">Book</b-button>
@@ -160,9 +174,11 @@ export default {
   methods: {
     onSubmit(evt) {
       evt.preventDefault();
+
       db.collection("clients")
         .add({
           name: this.form.name,
+          nationality: this.form.nationality,
           email: this.form.email
         })
         .then(docRef => {
@@ -174,18 +190,21 @@ export default {
               day: this.form.date
             })
             .then(d => {
-              Swal.fire("Good job!", `Reservation id: ${d.id}`, "success");
+              Swal.fire(
+                "Good job! Copy your id Reservation",
+                `Reservation id: ${d.id}`,
+                "success"
+              );
               this.$bvModal.hide("my-modal");
               this.form.email = "";
-              this.form.name = "";
+              (this.form.nationality = ""), (this.form.name = "");
             });
         });
     },
-
     modaldata(room, price, color) {
       this.$bvModal.show("my-modal");
       this.form.room = room;
-      this.form.color = color;
+      this.color = color;
       this.form.price = price;
     }
   }

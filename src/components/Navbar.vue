@@ -128,6 +128,7 @@
         <b-card-text>
           <h6>Reservation id: {{reservation.id}}</h6>
           <h6>Name: {{reservation.name}}</h6>
+          <h6>Nationality: {{reservation.nationality}}</h6>
           <h6>Email: {{reservation.email}}</h6>
           <h6>Day: {{reservation.day}}</h6>
           <h6>Price: {{reservation.price}}</h6>
@@ -163,6 +164,7 @@ export default {
       reservation: {
         id: "",
         name: "",
+        nationality: "",
         email: "",
         day: "",
         price: ""
@@ -200,7 +202,7 @@ export default {
         case "Contact":
           db.collection("messages")
             .add({ message: this.form.message, email: this.form.email })
-            .them(() => {
+            .then(() => {
               this.$bvModal.hide("my-modal2");
               Swal.fire({
                 icon: "success",
@@ -255,6 +257,7 @@ export default {
       this.form.room = null;
       this.form.message = "";
       this.form.email = "";
+      (this.form.nationality = ""), (this.form.day = "");
 
       this.reservation.id = "";
       this.reservation.name = "";
@@ -272,9 +275,10 @@ export default {
 
       this.reservation.id = doc.id;
       this.reservation.name = doc2.data().name;
+      this.reservation.nationality = doc2.data().nationality;
       this.reservation.email = doc2.data().email;
-      this.reservation.day = doc2.data().day;
-      this.reservation.price = doc2.data().price;
+      this.reservation.day = doc.data().day;
+      this.reservation.price = doc.data().price;
     }
   }
 };

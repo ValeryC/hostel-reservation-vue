@@ -1,9 +1,9 @@
 <template>
   <div>
-    <b-navbar fixed="top" toggleable="lg" type="dark" variant="dark">
+    <b-navbar toggleable="lg" type="dark" variant="dark">
       <b-navbar-brand href="#">
-        <!-- <i class="fas fa-hotel"></i>  -->
-        <img :src="require('../assets/nestor.jpg')" height="20px" width="20px">
+        <i class="fas fa-hotel"></i>
+        <!-- <img :src="require('../assets/nestor.jpg')" height="20px" width="20px"> -->
         Nestor reservation App
       </b-navbar-brand>
 
@@ -23,7 +23,7 @@
     </b-navbar>
     <b-container fluid class="bv-example-row mt-4">
       <b-row>
-        <b-col cols="6">
+        <b-col cols="12">
           <h2 class>Room-single</h2>
           <b-img :src="require('@/assets/img1.jpg')" fluid alt="Responsive image"></b-img>
           <b-table :fields="fields" bordered striped hover :items="single">
@@ -37,7 +37,7 @@
             </template>
           </b-table>
         </b-col>
-        <b-col cols="6">
+        <b-col cols="12">
           <h2 class>Room-Double</h2>
           <b-img :src="require('@/assets/img2.jpg')" fluid alt="Responsive image"></b-img>
           <b-table :fields="fields" bordered striped hover :items="double">
@@ -52,7 +52,7 @@
           </b-table>
         </b-col>
 
-        <b-col cols="6">
+        <b-col cols="12">
           <h2 class>Room - Family</h2>
           <b-img :src="require('@/assets/img3.jpg')" fluid alt="Responsive image"></b-img>
           <b-table :fields="fields" bordered striped hover :items="family">
@@ -67,7 +67,7 @@
           </b-table>
         </b-col>
 
-        <b-col cols="6">
+        <b-col cols="12">
           <h2 class>Room - Deluxe</h2>
           <b-img :src="require('@/assets/img4.jpg')" fluid alt="Responsive image"></b-img>
           <b-table :fields="fields" bordered striped hover :items="deluxe">
@@ -100,6 +100,8 @@ export default {
       fields: [
         { key: "id", label: "Id", sortable: true },
         { key: "clientID", label: "ClientID", sortable: true },
+        { key: "name", label: "Name", sortable: true },
+        { key: "email", label: "E-mail", sortable: true },
         { key: "room", label: "Room", sortable: true },
         { key: "price", label: "Price", sortable: true },
         { key: "day", label: "Day", sortable: true },
@@ -114,6 +116,8 @@ export default {
       fieldsMessage: [
         { key: "id", label: "Id", sortable: true },
         { key: "message", label: "Message", sortable: true },
+        { key: "name", label: "Name", sortable: true },
+
         { key: "email", label: "E-mail", sortable: true },
         { key: "delete", label: "Delete Message", sortable: true }
       ]
@@ -192,11 +196,11 @@ export default {
 </script>
 
 <style scoped>
-/* i {
-  color: orange;
-} */
+i {
+  color: #48a9a6;
+}
 img {
-  height: 40vh !important;
+  height: 20xvh !important;
   width: 100%;
 }
 </style>
