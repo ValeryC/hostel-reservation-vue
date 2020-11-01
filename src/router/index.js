@@ -3,6 +3,7 @@ import VueRouter from "vue-router"
 import Home from "../views/Home.vue"
 import Admin from "../views/Admin.vue"
 import Message from "../views/Message.vue"
+import Clients from "../views/Clients.vue"
 
 Vue.use(VueRouter)
 
@@ -21,6 +22,11 @@ const routes = [
     path: "/message",
     name: "message",
     component: Message
+  },
+  {
+    path: "/clients",
+    name: "clients",
+    component: Clients
   }
 ]
 

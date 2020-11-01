@@ -215,7 +215,8 @@ export default {
           lastname: this.form.lastname,
           nationality: this.form.nationality,
           phone: this.form.phone,
-          email: this.form.email
+          email: this.form.email,
+          room: this.form.room
         })
         .then(docRef => {
           db.collection(this.form.room)

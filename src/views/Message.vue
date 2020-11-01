@@ -29,6 +29,12 @@
                 <i class="fas fa-envelope"></i> Message
               </b-button>
             </router-link>
+
+            <router-link to="/clients">
+              <b-button size="sm" class="my-2 mr-2 my-sm-0">
+                <i class="fas fa-users"></i> clients
+              </b-button>
+            </router-link>
           </b-nav-form>
         </b-navbar-nav>
       </b-collapse>

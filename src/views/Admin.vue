@@ -30,6 +30,12 @@
                 <i class="fas fa-envelope"></i> Message
               </b-button>
             </router-link>
+
+            <router-link to="/clients">
+              <b-button size="sm" class="my-2 mr-2 my-sm-0">
+                <i class="fas fa-users"></i> clients
+              </b-button>
+            </router-link>
           </b-nav-form>
         </b-navbar-nav>
       </b-collapse>
@@ -48,6 +54,15 @@
                 @click="deletekey('Single',row.item.id)"
               >Delete Reservation</b-button>
             </template>
+
+            <template v-slot:cell(Edit)="row">
+              <b-button
+                size="md"
+                variant="info"
+                block
+                @click="modaldata('Single',row.item.id)"
+              >Edit Reservation</b-button>
+            </template>
           </b-table>
         </b-col>
         <b-col cols="12">
@@ -61,6 +76,14 @@
                 block
                 @click="deletekey('Double',row.item.id)"
               >Delete Reservation</b-button>
+            </template>
+            <template v-slot:cell(Edit)="row">
+              <b-button
+                size="md"
+                variant="info"
+                block
+                @click="modaldata('Double',row.item.id)"
+              >Edit Reservation</b-button>
             </template>
           </b-table>
         </b-col>
@@ -77,6 +100,14 @@
                 @click="deletekey('Family', row.item.id)"
               >Delete Reservation</b-button>
             </template>
+            <template v-slot:cell(Edit)="row">
+              <b-button
+                size="md"
+                variant="info"
+                block
+                @click="modaldata('Family',row.item.id)"
+              >Edit Reservation</b-button>
+            </template>
           </b-table>
         </b-col>
 
@@ -92,10 +123,91 @@
                 @click="deletekey('Deluxe', row.item.id)"
               >Delete Reservation</b-button>
             </template>
+            <template v-slot:cell(Edit)="row">
+              <b-button
+                size="md"
+                variant="info"
+                block
+                @click="modaldata('Deluxe',row.item.id)"
+              >Edit Reservation</b-button>
+            </template>
           </b-table>
         </b-col>
       </b-row>
     </b-container>
+
+    <b-modal hide-footer id="my-modal" :title="form.room">
+      <b-form @submit="onSubmit">
+        <b-form-group id="input-group-1" label="Firstname:" label-for="input-1">
+          <b-form-input
+            id="input-1"
+            v-model="form.firstname"
+            type="text"
+            required
+            placeholder="Enter firstname"
+          ></b-form-input>
+        </b-form-group>
+
+        <b-form-group id="input-group-1" label="Lastname:" label-for="input-1">
+          <b-form-input
+            id="input-1"
+            v-model="form.lastname"
+            type="text"
+            required
+            placeholder="Enter Lastname"
+          ></b-form-input>
+        </b-form-group>
+
+        <b-form-group id="input-group-1" label="Nationality:" label-for="input-1">
+          <b-form-input
+            id="input-1"
+            v-model="form.nationality"
+            type="text"
+            required
+            placeholder="Enter Nationality"
+          ></b-form-input>
+        </b-form-group>
+
+        <b-form-group id="input-group-2" label="Birth:" label-for="input2">
+          <b-form-input
+            id="input-2"
+            v-model="form.birth"
+            type="date"
+            required
+            placeholder="Select Day"
+          ></b-form-input>
+        </b-form-group>
+
+        <b-form-group id="input-group-1" label="Phone:" label-for="input-1">
+          <b-form-input
+            id="input-1"
+            v-model="form.phone"
+            type="number"
+            required
+            placeholder="Enter a Phone number"
+          ></b-form-input>
+        </b-form-group>
+
+        <b-form-group id="input-group-2" label="E-mail" label-for="input-2">
+          <b-form-input id="input-2" v-model="form.email" required placeholder="Enter Email"></b-form-input>
+        </b-form-group>
+
+        <b-form-group id="input-group-2" label="Day to Book:" label-for="input2">
+          <b-form-input
+            id="input-2"
+            v-model="form.date"
+            type="date"
+            required
+            placeholder="Select Day"
+          ></b-form-input>
+        </b-form-group>
+
+        <b-form-group id="input-group-2" label="Price per Night:" label-for="input-2">
+          <b-form-input id="input-2qa" v-model="form.price" required disabled></b-form-input>
+        </b-form-group>
+        <b-button class="text-white" block type="submit" :variant="color">Book</b-button>
+      </b-form>
+    </b-modal>
   </div>
 </template>
 
@@ -104,6 +216,19 @@ import { db } from "@/firebase";
 export default {
   data() {
     return {
+      form: {
+        email: "",
+        firstname: "",
+        lastname: "",
+        nationality: "",
+        birth: "",
+        phone: "",
+        room: "",
+        price: "",
+        date: ""
+      },
+      color: "",
+
       single: [],
       double: [],
       family: [],
@@ -111,8 +236,8 @@ export default {
       clients: [],
       messages: [],
       fields: [
-        { key: "id", label: "Id", sortable: true },
-        // { key: "clientID", label: "ClientID", sortable: true },
+        { key: "id", label: "Reservation Id", sortable: true },
+        { key: "clientID", label: "ClientID", sortable: true },
         { key: "firstname", label: "Firstname", sortable: true },
         { key: "lastname", label: "Lastname", sortable: true },
         { key: "nationality", label: "Nationality", sortable: true },
@@ -122,7 +247,8 @@ export default {
         { key: "room", label: "Room", sortable: true },
         { key: "price", label: "Price", sortable: true },
         { key: "day", label: "Day", sortable: true },
-        { key: "delete", label: "Delete Reservation", sortable: true }
+        { key: "delete", label: "Delete Reservation", sortable: true },
+        { key: "Edit", label: "Edit Reservation", sortable: true }
       ],
       fieldsClient: [
         { key: "id", label: "Id", sortable: true },
@@ -207,6 +333,12 @@ export default {
         .catch(function(error) {
           console.error("Error removing document: ", error);
         });
+    },
+    modaldata(room, price, color) {
+      this.$bvModal.show("my-modal");
+      this.form.room = room;
+      this.color = color;
+      this.form.price = price;
     }
   }
 };
