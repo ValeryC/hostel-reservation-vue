@@ -137,13 +137,12 @@
     </b-container>
 
     <b-modal hide-footer id="my-modal" :title="form.room">
-      <b-form @submit="onSubmit">
+      <b-form @submit.prevent="onUpdate">
         <b-form-group id="input-group-1" label="Firstname:" label-for="input-1">
           <b-form-input
             id="input-1"
             v-model="form.firstname"
             type="text"
-            required
             placeholder="Enter firstname"
           ></b-form-input>
         </b-form-group>
@@ -153,7 +152,6 @@
             id="input-1"
             v-model="form.lastname"
             type="text"
-            required
             placeholder="Enter Lastname"
           ></b-form-input>
         </b-form-group>
@@ -163,19 +161,12 @@
             id="input-1"
             v-model="form.nationality"
             type="text"
-            required
             placeholder="Enter Nationality"
           ></b-form-input>
         </b-form-group>
 
         <b-form-group id="input-group-2" label="Birth:" label-for="input2">
-          <b-form-input
-            id="input-2"
-            v-model="form.birth"
-            type="date"
-            required
-            placeholder="Select Day"
-          ></b-form-input>
+          <b-form-input id="input-2" v-model="form.birth" type="date" placeholder="Select Day"></b-form-input>
         </b-form-group>
 
         <b-form-group id="input-group-1" label="Phone:" label-for="input-1">
@@ -183,23 +174,16 @@
             id="input-1"
             v-model="form.phone"
             type="number"
-            required
             placeholder="Enter a Phone number"
           ></b-form-input>
         </b-form-group>
 
         <b-form-group id="input-group-2" label="E-mail" label-for="input-2">
-          <b-form-input id="input-2" v-model="form.email" required placeholder="Enter Email"></b-form-input>
+          <b-form-input id="input-2" v-model="form.email" placeholder="Enter Email"></b-form-input>
         </b-form-group>
 
         <b-form-group id="input-group-2" label="Day to Book:" label-for="input2">
-          <b-form-input
-            id="input-2"
-            v-model="form.date"
-            type="date"
-            required
-            placeholder="Select Day"
-          ></b-form-input>
+          <b-form-input id="input-2" v-model="form.date" type="date" placeholder="Select Day"></b-form-input>
         </b-form-group>
 
         <b-form-group id="input-group-2" label="Price per Night:" label-for="input-2">
@@ -212,6 +196,7 @@
 </template>
 
 <script>
+//import Swal from "sweetalert2";
 import { db } from "@/firebase";
 export default {
   data() {
@@ -324,21 +309,37 @@ export default {
 
   methods: {
     deletekey(collection, id) {
-      db.collection(collection)
-        .doc(id)
-        .delete()
-        .then(function() {
-          console.log("Document successfully deleted");
-        })
-        .catch(function(error) {
-          console.error("Error removing document: ", error);
-        });
+      if (window.confirm("Do you really want to delete?")) {
+        db.collection(collection)
+          .doc(id)
+          .delete()
+          .then(function() {
+            console.log("Document successfully deleted");
+          })
+          .catch(function(error) {
+            console.error("Error removing document: ", error);
+          });
+      }
     },
     modaldata(room, price, color) {
       this.$bvModal.show("my-modal");
       this.form.room = room;
       this.color = color;
       this.form.price = price;
+    },
+
+    onUpdate(event) {
+      event.preventDefault();
+      db.collection("clients")
+        .doc(this.$route.params.id)
+        .update("clients")
+        .then(() => {
+          console.log("client successfully updated!");
+          this.$router.push("/admin");
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
   }
 };

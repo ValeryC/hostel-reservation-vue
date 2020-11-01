@@ -238,7 +238,7 @@ export default {
                 `Reservation id: ${d.id}`,
                 "success"
               );
-              this.$bvModal.hide("my-modal");
+
               this.form.email = "";
               this.form.nationality = "";
               this.form.firstname = "";
