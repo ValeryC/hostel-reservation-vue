@@ -214,6 +214,7 @@ export default {
           firstname: this.form.firstname,
           lastname: this.form.lastname,
           nationality: this.form.nationality,
+          day: this.form.date,
           phone: this.form.phone,
           email: this.form.email,
           room: this.form.room

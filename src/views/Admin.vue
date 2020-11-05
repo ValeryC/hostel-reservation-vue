@@ -60,7 +60,7 @@
                 size="md"
                 variant="info"
                 block
-                @click="modaldata('Single',row.item.id)"
+                @click="modaldata('Single',row.item)"
               >Edit Reservation</b-button>
             </template>
           </b-table>
@@ -183,7 +183,7 @@
         </b-form-group>
 
         <b-form-group id="input-group-2" label="Day to Book:" label-for="input2">
-          <b-form-input id="input-2" v-model="form.date" type="date" placeholder="Select Day"></b-form-input>
+          <b-form-input id="input-2" v-model="form.day" type="date" placeholder="Select Day"></b-form-input>
         </b-form-group>
 
         <b-form-group id="input-group-2" label="Price per Night:" label-for="input-2">
@@ -196,7 +196,7 @@
 </template>
 
 <script>
-//import Swal from "sweetalert2";
+import Swal from "sweetalert2";
 import { db } from "@/firebase";
 export default {
   data() {
@@ -210,7 +210,9 @@ export default {
         phone: "",
         room: "",
         price: "",
-        date: ""
+        day: "",
+        id: "",
+        clientID: ""
       },
       color: "",
 
@@ -321,25 +323,57 @@ export default {
           });
       }
     },
-    modaldata(room, price, color) {
+    modaldata(room, item) {
       this.$bvModal.show("my-modal");
-      this.form.room = room;
-      this.color = color;
-      this.form.price = price;
+      this.form = item;
     },
 
-    onUpdate(event) {
-      event.preventDefault();
+    onUpdate(evt) {
+      evt.preventDefault();
+      console.log(this.form);
+
       db.collection("clients")
-        .doc(this.$route.params.id)
-        .update("clients")
-        .then(() => {
-          console.log("client successfully updated!");
-          this.$router.push("/admin");
+        .doc(this.form.clientID)
+        .update({
+          firstname: this.form.firstname,
+          lastname: this.form.lastname,
+          nationality: this.form.nationality,
+          phone: this.form.phone,
+          email: this.form.email,
+          room: this.form.room
         })
-        .catch(error => {
-          console.log(error);
+        .then(() => {
+          console.log(this.form.id);
+          db.collection(this.form.room)
+            .doc(this.form.id)
+            .update({
+              clientID: this.form.clientID,
+              firstname: this.form.firstname,
+              lastname: this.form.lastname,
+              nationality: this.form.nationality,
+              room: this.form.room,
+              price: this.form.price,
+              day: this.form.day,
+              birth: this.form.birth,
+              phone: this.form.phone,
+              email: this.form.email
+            });
+        })
+        .then(() => {
+          Swal.fire(
+            "Good job! Copy your id Reservation",
+            `Reservation id: ${this.form.id}`,
+            "success"
+          );
+
+          this.form.email = "";
+          this.form.nationality = "";
+          this.form.firstname = "";
+          this.form.lastname = "";
+          this.form.birth = "";
+          this.form.phone = "";
         });
+      this.$bvModal.hide("my-modal");
     }
   }
 };

@@ -32,7 +32,7 @@
 
             <router-link to="/clients">
               <b-button size="sm" class="my-2 mr-2 my-sm-0">
-                <i class="fas fa-users"></i> clients
+                <i class="fas fa-users"></i> history
               </b-button>
             </router-link>
           </b-nav-form>
@@ -43,7 +43,16 @@
     <b-container fluid class="bv-example-row mt-4">
       <b-row>
         <b-col cols="12">
-          <b-table :fields="fieldsClient" bordered striped hover :items="clients"></b-table>
+          <b-table :fields="fieldsClient" bordered striped hover :items="clients">
+            <template v-slot:cell(delete)="row">
+              <b-button
+                size="md"
+                variant="danger"
+                block
+                @click="deletekey('',row.item.id)"
+              >Delete client</b-button>
+            </template>
+          </b-table>
         </b-col>
       </b-row>
     </b-container>
@@ -58,13 +67,15 @@ export default {
     return {
       clients: [],
       fieldsClient: [
-        //  { key: "id", label: "Client id", sortable: true },
+        { key: "id", label: "Client id", sortable: true },
         { key: "lastname", label: "lastname", sortable: true },
         { key: "firstname", label: "firstname", sortable: true },
         { key: "nationality", label: "nationality", sortable: true },
+        { key: "day", label: "Reservation day", sortable: true },
         { key: "phone", label: "phone", sortable: true },
         { key: "email", label: "E-mail", sortable: true },
-        { key: "room", label: "Room", sortable: true }
+        { key: "room", label: "Room", sortable: true },
+        { key: "delete", label: "Delete Client", sortable: true }
       ]
     };
   },
@@ -79,7 +90,21 @@ export default {
     });
   },
 
-  methods: {}
+  methods: {
+    deletekey(clients, id) {
+      if (window.confirm("Do you really want to delete?")) {
+        db.collection("clients")
+          .doc(id)
+          .delete()
+          .then(function() {
+            console.log("Document successfully deleted");
+          })
+          .catch(function(error) {
+            console.error("Error removing document: ", error);
+          });
+      }
+    }
+  }
 };
 </script>
 
